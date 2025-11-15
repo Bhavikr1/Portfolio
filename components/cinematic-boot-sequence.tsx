@@ -58,10 +58,11 @@ export default function CinematicBootSequence({ onComplete }: CinematicBootSeque
         console.log('Stage 3: Boot Messages');
         let messageIndex = 0;
         let charIndex = 0;
+        let currentTimer: NodeJS.Timeout | undefined;
 
         const typeMessage = () => {
           if (messageIndex >= bootMessages.length) {
-            setTimeout(() => setStage(4), 800);
+            currentTimer = setTimeout(() => setStage(4), 800);
             return;
           }
 
@@ -70,9 +71,9 @@ export default function CinematicBootSequence({ onComplete }: CinematicBootSeque
           if (charIndex <= currentMessage.length) {
             setDisplayText(currentMessage.slice(0, charIndex));
             charIndex++;
-            setTimeout(typeMessage, 30);
+            currentTimer = setTimeout(typeMessage, 30);
           } else {
-            setTimeout(() => {
+            currentTimer = setTimeout(() => {
               messageIndex++;
               charIndex = 0;
               setDisplayText('');
@@ -82,6 +83,7 @@ export default function CinematicBootSequence({ onComplete }: CinematicBootSeque
         };
 
         typeMessage();
+        return currentTimer;
       },
 
       // Stage 4: Ready to launch - auto proceed after 2 seconds
@@ -102,7 +104,9 @@ export default function CinematicBootSequence({ onComplete }: CinematicBootSeque
 
     if (stage < timeline.length) {
       const timer = timeline[stage]();
-      return () => timer && clearTimeout(timer);
+      return () => {
+        if (timer) clearTimeout(timer);
+      };
     }
   }, [stage, onComplete]);
 

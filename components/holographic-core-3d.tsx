@@ -6,7 +6,7 @@ import { OrbitControls, Sphere, MeshDistortMaterial, Torus, Box } from '@react-t
 import * as THREE from 'three';
 
 function Particles({ count = 1000 }) {
-  const mesh = useRef<THREE.Points>(null);
+  const mesh = useRef<THREE.InstancedMesh>(null);
 
   const particles = useMemo(() => {
     const temp = [];
