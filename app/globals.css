@@ -1,26 +1,440 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
+@custom-variant dark (&:is(.dark *));
+
+/* B-HUD Custom Color Palette - PHASE 2 Specifications */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary B-HUD Colors */
+  --hologram-blue: #00F0FF;
+  --glow-cyan: #0FFBFF;
+  --navy-bg: #020B1A;
+  --alert-red: #FF2E43;
+  --circuit-green: #26FF9A;
+
+  /* System Colors */
+  --background: #020B1A;
+  --foreground: #00F0FF;
+  --card: #0a1628;
+  --card-foreground: #00F0FF;
+  --popover: #0a1628;
+  --popover-foreground: #00F0FF;
+  --primary: #00F0FF;
+  --primary-foreground: #020B1A;
+  --secondary: #0f1f3a;
+  --secondary-foreground: #0FFBFF;
+  --muted: #0f1f3a;
+  --muted-foreground: #0FFBFF;
+  --accent: #0FFBFF;
+  --accent-foreground: #020B1A;
+  --destructive: #FF2E43;
+  --destructive-foreground: #FF2E43;
+  --border: #00F0FF;
+  --input: #0a1628;
+  --ring: #0FFBFF;
+  --chart-1: #00F0FF;
+  --chart-2: #0FFBFF;
+  --chart-3: #26FF9A;
+  --chart-4: #00F0FF;
+  --chart-5: #FF2E43;
+  --radius: 0.375rem;
+}
+
+.dark {
+  --background: #0a0e27;
+  --foreground: #00ffff;
+  --card: #0f1629;
+  --card-foreground: #00ffff;
+  --popover: #0f1629;
+  --popover-foreground: #00ffff;
+  --primary: #0066cc;
+  --primary-foreground: #00ffff;
+  --secondary: #1a2a4a;
+  --secondary-foreground: #00ffff;
+  --muted: #1a2a4a;
+  --muted-foreground: #0099ff;
+  --accent: #00ffff;
+  --accent-foreground: #0a0e27;
+  --destructive: #ff3366;
+  --destructive-foreground: #ff3366;
+  --border: #0099ff;
+  --input: #0f1629;
+  --ring: #00ffff;
+  --chart-1: #0066cc;
+  --chart-2: #00ffff;
+  --chart-3: #0099ff;
+  --chart-4: #00ff99;
+  --chart-5: #ff00ff;
 }
 
 @theme inline {
+  --font-sans: var(--font-orbitron), 'Orbitron', sans-serif;
+  --font-mono: var(--font-roboto-mono), 'Roboto Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-orbitron), 'Orbitron', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  code, pre, .font-mono {
+    font-family: var(--font-roboto-mono), 'Roboto Mono', monospace;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom futuristic animations for HUD effects */
+@keyframes arcReactorPulse {
+  0% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), inset 0 0 30px rgba(0, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    text-shadow: -2px 0 #00ff00, 2px 0 #ff00ff;
+  }
+  50% {
+    text-shadow: -2px 0 #ff00ff, 2px 0 #00ff00;
+  }
+}
+
+@keyframes hologramFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(0, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  }
+}
+
+@keyframes hudRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes energyFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes dataStream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes circuitPulse {
+  0%, 100% {
+    opacity: 0.3;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.5);
+  }
+}
+
+.arc-reactor-pulse {
+  animation: arcReactorPulse 2s ease-in-out infinite;
+}
+
+.scanlines {
+  animation: scanlines 3s linear infinite;
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+.hologram-float {
+  animation: hologramFloat 3s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.glow-border {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.hud-rotate {
+  animation: hudRotate 20s linear infinite;
+}
+
+.energy-flow {
+  animation: energyFlow 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+.data-stream {
+  animation: dataStream 2s linear infinite;
+}
+
+.circuit-pulse {
+  animation: circuitPulse 2s ease-in-out infinite;
+}
+
+.hologram-panel {
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.05);
+  background: rgba(15, 22, 41, 0.6);
+  backdrop-filter: blur(10px);
+}
+
+/* Tron-style energy border */
+.tron-border {
+  position: relative;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  box-shadow:
+    0 0 10px rgba(0, 240, 255, 0.2),
+    inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.tron-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 240, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: energyFlow 3s linear infinite;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.tron-border:hover::before {
+  opacity: 1;
+}
+
+/* HUD corner brackets */
+.hud-corners {
+  position: relative;
+}
+
+.hud-corners::before,
+.hud-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 240, 255, 0.5);
+}
+
+.hud-corners::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hud-corners::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Glass panel with noise texture */
+.glass-panel {
+  background: rgba(2, 11, 26, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(0, 240, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 240, 255, 0.03) 2px,
+      rgba(0, 240, 255, 0.03) 4px
+    );
+  pointer-events: none;
+}
+
+/* Blueprint wireframe pattern */
+.blueprint-bg {
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Neon text glow */
+.neon-text {
+  color: #00F0FF;
+  text-shadow:
+    0 0 5px rgba(0, 240, 255, 0.5),
+    0 0 10px rgba(0, 240, 255, 0.3),
+    0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+/* Circuit trace lines */
+.circuit-lines {
+  background-image:
+    linear-gradient(90deg, transparent 0%, rgba(38, 255, 154, 0.1) 50%, transparent 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 240, 255, 0.1) 0px,
+      transparent 1px,
+      transparent 10px,
+      rgba(0, 240, 255, 0.1) 11px
+    );
+  animation: energyFlow 4s linear infinite;
+  background-size: 200% 100%, 100% 100%;
+}
+
+/* Custom scrollbar for futuristic look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 14, 39, 0.5);
+  border-left: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 255, 0.3) rgba(10, 14, 39, 0.5);
 }
